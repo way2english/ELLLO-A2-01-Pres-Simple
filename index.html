@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A2-01 — Present Simple | Way2English</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blue:#4361ee;--violet:#7c3aed;--teal:#0d9488;--green:#16a34a;
+  --red:#dc2626;--bg:#f8fafc;--card:#ffffff;--text:#1e293b;
+  --muted:#64748b;--border:#e2e8f0;--shadow:0 4px 24px rgba(67,97,238,.10);
+  --radius:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+.hero{background:linear-gradient(135deg,#1e3a8a 0%,#4361ee 55%,#7c3aed 100%);padding:48px 24px 40px;text-align:center;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Ccircle cx='30' cy='30' r='4' fill='%23ffffff' fill-opacity='0.04'/%3E%3C/g%3E%3C/svg%3E");}
+.hero-badge{display:inline-block;background:rgba(255,255,255,.15);color:#fff;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:6px 16px;border-radius:999px;margin-bottom:16px;border:1px solid rgba(255,255,255,.25);}
+.hero h1{color:#fff;font-size:clamp(26px,5vw,42px);font-weight:800;line-height:1.15;margin-bottom:10px;}
+.hero p{color:rgba(255,255,255,.82);font-size:16px;max-width:520px;margin:0 auto;}
+.stepper-wrap{background:#fff;border-bottom:1px solid var(--border);overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.stepper{display:flex;align-items:stretch;min-width:max-content;padding:0 12px;}
+.step-btn{display:flex;flex-direction:column;align-items:center;gap:4px;padding:14px 10px 12px;cursor:pointer;border:none;background:none;font-family:inherit;font-size:11px;color:var(--muted);font-weight:600;white-space:nowrap;position:relative;transition:color .2s;min-width:68px;}
+.step-btn::after{content:'';position:absolute;bottom:0;left:10%;right:10%;height:3px;background:transparent;border-radius:3px 3px 0 0;transition:background .2s;}
+.step-btn .s-icon{font-size:20px;line-height:1;}
+.step-btn.active{color:var(--blue);}
+.step-btn.active::after{background:var(--blue);}
+.step-btn.done{color:var(--green);}
+.step-btn.done::after{background:var(--green);}
+.container{max-width:780px;margin:0 auto;padding:32px 16px 120px;}
+.step-panel{display:none;animation:fadeUp .35s ease both;}
+.step-panel.active{display:block;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.sec-title{font-size:22px;font-weight:800;margin-bottom:6px;}
+.sec-sub{color:var(--muted);font-size:14px;margin-bottom:24px;}
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px;margin-bottom:20px;border:1px solid var(--border);}
+.vocab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;}
+.vocab-item{background:linear-gradient(135deg,#eff6ff,#f5f3ff);border:1px solid #c7d2fe;border-radius:12px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.vocab-word{font-weight:700;font-size:14px;color:var(--text);flex:1;}
+.vocab-ua{font-size:12px;color:var(--muted);font-weight:500;margin-top:3px;}
+.speak-btn{background:var(--blue);color:#fff;border:none;border-radius:8px;width:32px;height:32px;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s;}
+.speak-btn:hover{background:var(--violet);}
+.listen-all-btn{display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--blue),var(--violet));color:#fff;border:none;border-radius:12px;padding:12px 24px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;margin-top:20px;transition:opacity .2s;}
+.listen-all-btn:hover{opacity:.88;}
+.conv-img{width:100%;border-radius:12px;margin-bottom:16px;display:block;}
+.audio-player{width:100%;margin-bottom:20px;}
+.quiz-q{margin-bottom:20px;}
+.quiz-q p{font-weight:700;font-size:15px;margin-bottom:10px;}
+.quiz-opts{display:flex;flex-direction:column;gap:8px;}
+.quiz-opt{background:#f8fafc;border:2px solid var(--border);border-radius:10px;padding:11px 16px;cursor:pointer;font-family:inherit;font-size:14px;font-weight:600;text-align:left;transition:all .18s;}
+.quiz-opt:hover:not(:disabled){border-color:var(--blue);background:#eff6ff;}
+.quiz-opt.correct{border-color:var(--green);background:#f0fdf4;color:var(--green);}
+.quiz-opt.wrong{border-color:var(--red);background:#fef2f2;color:var(--red);}
+.quiz-opt:disabled{cursor:default;}
+.quiz-result{margin-top:14px;padding:12px 16px;border-radius:10px;font-weight:700;font-size:15px;}
+.quiz-result.pass{background:#f0fdf4;color:var(--green);}
+.quiz-result.fail{background:#fef2f2;color:var(--red);}
+.pzl-word-bank{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px;}
+.pzl-chip{background:linear-gradient(135deg,#eff6ff,#f5f3ff);border:1px solid #c7d2fe;border-radius:8px;padding:5px 12px;font-size:13px;font-weight:700;color:var(--violet);}
+.pzl-line{font-size:15px;line-height:2.6;margin-bottom:2px;}
+.pzl-sel{border:2px solid #c7d2fe;border-radius:8px;padding:3px 8px;font-family:inherit;font-size:14px;font-weight:600;background:#f5f3ff;color:var(--violet);cursor:pointer;outline:none;}
+.pzl-sel.correct{border-color:var(--green);background:#f0fdf4;color:var(--green);}
+.pzl-sel.wrong{border-color:var(--red);background:#fef2f2;color:var(--red);}
+.pzl-audio-label{font-size:13px;color:var(--muted);margin:14px 0 6px;font-style:italic;}
+.check-btn{margin-top:14px;background:linear-gradient(135deg,var(--teal),#0891b2);color:#fff;border:none;border-radius:10px;padding:11px 24px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;transition:opacity .2s;}
+.check-btn:hover{opacity:.88;}
+.pzl-score{margin-top:10px;font-weight:700;color:var(--teal);}
+.car-slide{display:none;}
+.car-slide.active{display:block;}
+.car-nav{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:20px;}
+.car-nav button{background:var(--blue);color:#fff;border:none;border-radius:10px;padding:10px 22px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;transition:opacity .2s;}
+.car-nav button:hover:not(:disabled){opacity:.82;}
+.car-nav button:disabled{background:var(--border);color:var(--muted);cursor:default;}
+.car-counter{font-weight:700;color:var(--muted);font-size:14px;}
+.reading-conv{font-size:15px;line-height:2;}
+.reading-line{margin-bottom:4px;}
+.reading-speaker{font-weight:800;color:var(--blue);}
+.reading-tip{background:#f0fdf4;border-left:4px solid var(--teal);padding:12px 16px;border-radius:0 10px 10px 0;font-size:13px;color:#065f46;margin-bottom:18px;}
+.fc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin-bottom:20px;}
+.fc-card{height:140px;perspective:800px;cursor:pointer;}
+.fc-inner{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.4,0,.2,1);}
+.fc-card.flipped .fc-inner{transform:rotateY(180deg);}
+.fc-front,.fc-back{position:absolute;inset:0;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px;backface-visibility:hidden;text-align:center;}
+.fc-front{background:linear-gradient(135deg,#1e3a8a,#4361ee,#7c3aed);color:#fff;}
+.fc-front .fc-phrase{font-size:15px;font-weight:700;margin-bottom:8px;}
+.fc-front .fc-hint{font-size:11px;opacity:.7;}
+.fc-back{background:#fff;border:2px solid #c7d2fe;transform:rotateY(180deg);}
+.fc-back .fc-ua{font-size:15px;font-weight:700;color:var(--violet);}
+.flip-all-btn{background:linear-gradient(135deg,var(--violet),var(--blue));color:#fff;border:none;border-radius:12px;padding:12px 24px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;transition:opacity .2s;}
+.flip-all-btn:hover{opacity:.88;}
+.sp-blank{display:inline-block;width:260px;border-bottom:2px dashed var(--violet);color:var(--muted);font-size:13px;font-style:italic;}
+.sp-interview-note{font-size:12px;color:var(--muted);font-style:italic;text-align:center;margin-bottom:16px;}
+.sp-line{margin-bottom:12px;font-size:15px;line-height:1.6;}
+.sp-role{font-weight:800;color:var(--violet);margin-right:6px;}
+.sp-text{color:var(--text);}
+.sp-car-title{font-weight:800;font-size:17px;color:var(--blue);margin-bottom:16px;}
+.vimeo-wrap{position:relative;padding-bottom:56.25%;height:0;border-radius:14px;overflow:hidden;margin-bottom:20px;}
+.vimeo-wrap iframe{position:absolute;inset:0;width:100%;height:100%;}
+.conv-list{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px;}
+.conv-list li{background:linear-gradient(135deg,#eff6ff,#f5f3ff);border:1px solid #c7d2fe;border-radius:10px;padding:12px 14px;font-weight:600;font-size:14px;}
+.nav-row{display:flex;justify-content:space-between;margin-top:28px;gap:12px;}
+.nav-btn{flex:1;padding:13px 20px;border:none;border-radius:12px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;}
+.nav-btn.prev{background:var(--border);color:var(--muted);}
+.nav-btn.prev:hover{background:#cbd5e1;}
+.nav-btn.next{background:linear-gradient(135deg,var(--blue),var(--violet));color:#fff;}
+.nav-btn.next:hover{opacity:.88;}
+.results-fab{position:fixed;bottom:24px;right:20px;z-index:999;background:linear-gradient(135deg,var(--blue),var(--violet));color:#fff;border:none;border-radius:999px;padding:13px 20px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 6px 24px rgba(67,97,238,.35);transition:transform .2s;}
+.results-fab:hover{transform:scale(1.05);}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;align-items:center;justify-content:center;padding:16px;}
+.modal-overlay.open{display:flex;}
+.modal{background:#fff;border-radius:20px;padding:28px;max-width:500px;width:100%;max-height:90vh;overflow-y:auto;}
+.modal h2{font-size:20px;font-weight:800;margin-bottom:18px;}
+.results-table{width:100%;border-collapse:collapse;margin-bottom:18px;font-size:14px;}
+.results-table th{background:#f1f5f9;padding:8px 12px;text-align:left;font-weight:700;}
+.results-table td{padding:8px 12px;border-top:1px solid var(--border);}
+.results-total{font-size:20px;font-weight:800;text-align:center;margin:16px 0;color:var(--blue);}
+.results-textarea{width:100%;border:1px solid var(--border);border-radius:10px;padding:12px;font-family:'JetBrains Mono',monospace;font-size:12px;resize:vertical;height:120px;}
+.copy-btn{width:100%;margin-top:10px;background:var(--teal);color:#fff;border:none;border-radius:10px;padding:11px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;}
+.close-btn{width:100%;margin-top:8px;background:var(--border);color:var(--text);border:none;border-radius:10px;padding:11px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-badge">Way2English · A2 · Lesson 01</div>
+  <h1>Present Simple</h1>
+  <p>Чотири короткі діалоги з Present Simple — слухай, читай і практикуйся.</p>
+</div>
+
+<div class="stepper-wrap"><div class="stepper" id="stepper"></div></div>
+<div class="container" id="panels-container"></div>
+
+<button class="results-fab" onclick="openResults()">📊 Результати <span id="fabScore">0/0</span></button>
+
+<div class="modal-overlay" id="resultsModal">
+  <div class="modal">
+    <h2>📊 Мої результати</h2>
+    <table class="results-table">
+      <thead><tr><th>Завдання</th><th>Результат</th></tr></thead>
+      <tbody id="resultsBody"></tbody>
+    </table>
+    <div class="results-total" id="resultsTotal"></div>
+    <textarea class="results-textarea" id="resultsText" readonly></textarea>
+    <button class="copy-btn" onclick="copyResults()">📋 Скопіювати звіт</button>
+    <button class="close-btn" onclick="closeResults()">Закрити</button>
+  </div>
+</div>
+
+<script>
+const STEPS=[
+  {id:'watch',icon:'🎬',label:'Watch'},
+  {id:'words',icon:'📚',label:'Слова'},
+  {id:'conv1',icon:'🎧',label:'Розмова 1'},
+  {id:'conv2',icon:'🎧',label:'Розмова 2'},
+  {id:'conv3',icon:'🎧',label:'Розмова 3'},
+  {id:'conv4',icon:'🎧',label:'Розмова 4'},
+  {id:'puzzle',icon:'🧩',label:'Пазл'},
+  {id:'reading',icon:'📖',label:'Читання'},
+  {id:'cards',icon:'🃏',label:'Картки'},
+  {id:'speaking',icon:'🗣️',label:'Говоримо'},
+];
+
+const VOCAB=[
+  {en:'tech company', ua:'технічна компанія'},
+  {en:'design software', ua:'проектувати програмне забезпечення'},
+  {en:'job', ua:'робота'},
+  {en:'downtown', ua:'центр міста'},
+  {en:'get to work', ua:'дістатися до роботи'},
+  {en:'take a bus', ua:'їздити автобусом'},
+  {en:'belong to a gym', ua:'бути членом спортзалу'},
+  {en:'exercise', ua:'працювати над тілом / тренуватися'},
+  {en:'jog together', ua:'бігати разом'},
+  {en:'both', ua:'обидва'},
+  {en:'sales', ua:'продажі'},
+  {en:'sell', ua:'продавати'},
+  {en:'real estate', ua:'нерухомість'},
+  {en:'difficult', ua:'складний'},
+  {en:'area', ua:'район'},
+  {en:'save money', ua:'зберігати гроші'},
+  {en:'roommate', ua:'сусід по квартирі'},
+  {en:'alone', ua:'один(ока)'},
+  {en:'though', ua:'хоча'},
+];
+
+const CONVS=[
+  {
+    title:'Conversation 1 — Present Simple (Job)',
+    img:'A2-01-1-Present-Simple-Job.jpg', audio:'A2-01-1-Present-Simple-Job.mp3',
+    text:[
+      {role:'Man',   line:'What do you do?'},
+      {role:'Woman', line:'I work at a tech company.'},
+      {role:'Man',   line:'Oh, what do you do there?'},
+      {role:'Woman', line:'I design software.'},
+      {role:'Man',   line:'Do you like your job?'},
+      {role:'Woman', line:'Yeah, I enjoy it.'},
+      {role:'Man',   line:'Where is your office?'},
+      {role:'Woman', line:'I work at the new office downtown.'},
+      {role:'Man',   line:'How do you get to work?'},
+      {role:'Woman', line:'I take the bus. I don’t have a car.'},
+      {role:'Man',   line:'Same here!'},
+    ],
+    questions:[
+      {q:'What does the woman do?', opts:['She sells houses','She makes coffee','She designs software','She teaches'], ans:2},
+      {q:'Where is her office?', opts:['Near the station','In the suburbs','Downtown','At home'], ans:2},
+      {q:'How does she get to work?', opts:['By car','By bus','By bike','On foot'], ans:1},
+    ]
+  },
+  {
+    title:'Conversation 2 — Present Simple (Gym)',
+    img:'A2-01-2-Present-Simple-Gym.jpg', audio:'A2-01-2-Present-Simple-Gym.mp3',
+    text:[
+      {role:'Man',   line:'Do you belong to a gym?'},
+      {role:'Woman', line:'Yes, I go to the gym near my house.'},
+      {role:'Man',   line:'What do you do at the gym? How do you exercise?'},
+      {role:'Woman', line:'On Monday and Tuesday I do yoga, and the gym has a pool, so I sometimes swim.'},
+      {role:'Man',   line:'Oh, I do yoga too! I do it at home though. I watch videos online.'},
+      {role:'Woman', line:'Oh, you don’t belong to a gym?'},
+      {role:'Man',   line:'No, I don’t like gyms. For exercise, I jog in the park, or play soccer with friends.'},
+      {role:'Woman', line:'Oh, that works. I love running in the park.'},
+      {role:'Man',   line:'Cool! Let’s jog together sometime.'},
+      {role:'Woman', line:'I’d like that!'},
+    ],
+    questions:[
+      {q:'Where is the gym?', opts:['Near her house','Downtown','Near the school','At the station'], ans:0},
+      {q:'What does the woman sometimes do?', opts:['Run','Swim','Play soccer','Lift weights'], ans:1},
+      {q:'What does the man do for exercise?', opts:['He goes to the gym','He jogs in the park','He swims','He cycles'], ans:1},
+    ]
+  },
+  {
+    title:'Conversation 3 — Present Simple (Parents)',
+    img:'A2-01-3-Present-Simple-Parents.jpg', audio:'A2-01-3-Present-Simple-Parents.mp3',
+    text:[
+      {role:'Man',   line:'What do your parents do?'},
+      {role:'Woman', line:'They both work in sales.'},
+      {role:'Man',   line:'Oh, what do they sell?'},
+      {role:'Woman', line:'They sell houses. They have a real estate company.'},
+      {role:'Man',   line:'That’s a difficult job.'},
+      {role:'Woman', line:'It is. They work long hours, but they like it.'},
+      {role:'Man',   line:'What about your parents?'},
+      {role:'Woman', line:'They’re professors. They teach at the university.'},
+      {role:'Man',   line:'Oh, what do they teach?'},
+      {role:'Woman', line:'They both teach business.'},
+    ],
+    questions:[
+      {q:'What do the woman\'s parents sell?', opts:['Cars','Books','Houses','Clothes'], ans:2},
+      {q:'What kind of company do they have?', opts:['A tech company','A real estate company','A gym','A school'], ans:1},
+      {q:'What do the man\'s parents do?', opts:['They are doctors','They are professors','They are salespeople','They are engineers'], ans:1},
+    ]
+  },
+  {
+    title:'Conversation 4 — Present Simple (Home)',
+    img:'A2-01-4-Present-Simple-House.jpg', audio:'A2-01-4-Present-Simple-House.mp3',
+    text:[
+      {role:'Man',   line:'Where do you live?'},
+      {role:'Woman', line:'I live near the river.'},
+      {role:'Man',   line:'I love that area. Do you live in a house or an apartment?'},
+      {role:'Woman', line:'I live in a house.'},
+      {role:'Man',   line:'Do you live alone, or with family?'},
+      {role:'Woman', line:'I live with my parents. I don’t pay rent, so I save money.'},
+      {role:'Man',   line:'Do you like it there?'},
+      {role:'Woman', line:'Yes, I do, but my house is old.'},
+      {role:'Man',   line:'I live in a small apartment downtown near the station.'},
+      {role:'Woman', line:'Do you live alone?'},
+      {role:'Man',   line:'I do, but I want a roommate.'},
+      {role:'Woman', line:'Really? How much is the rent?'},
+    ],
+    questions:[
+      {q:'Where does the woman live?', opts:['Near the river','Downtown','At the station','In the countryside'], ans:0},
+      {q:'Does the woman pay rent?', opts:['Yes','No','Sometimes','Only in summer'], ans:1},
+      {q:'What does the man want?', opts:['A house','A car','A roommate','A dog'], ans:2},
+    ]
+  },
+];
+
+function showPzlSlide(idx){
+  carState.p=idx;
+  document.querySelectorAll('.pzl-card').forEach((c,i)=>c.style.display=i===idx?'block':'none');
+  document.getElementById('pzl-prev').disabled=idx===0;
+  document.getElementById('pzl-next').disabled=idx===3;
+  document.getElementById('pzl-ind').textContent=(idx+1)+' / 4';
+}
+
+function showCarSlide(id,idx){
+  carState[id]=idx;
+  const prefix=id==='r'?'rslide':'spslide';
+  document.querySelectorAll(`[id^="${prefix}-"]`).forEach((s,i)=>s.style.display=i===idx?'block':'none');
+  document.getElementById(id+'-prev').disabled=idx===0;
+  document.getElementById(id+'-next').disabled=idx===3;
+  document.getElementById(id+'-ind').textContent=(idx+1)+' / 4';
+}
+
+function navCar(id,dir){
+  let n=(carState[id]||0)+dir;
+  if(n<0)n=0;if(n>3)n=3;
+  if(id==='p')showPzlSlide(n);
+  else showCarSlide(id,n);
+}
+
+function toggleAllCards(){
+  allFlipped=!allFlipped;
+  document.querySelectorAll('.fc-card').forEach(c=>{
+    if(allFlipped)c.classList.add('flipped');
+    else c.classList.remove('flipped');
+  });
+}
+
+function updateTopBadge(){
+  let g=0,t=0;
+  for(let i=1;i<=4;i++){const s=quizScores['q'+i];if(s){g+=s.got;t+=s.total;}}
+  for(let i=1;i<=4;i++){const s=puzzleScores['p'+i];if(s){g+=s.got;t+=s.total;}}
+  document.getElementById('topScore').textContent=g+'/'+t;
+}
+
+function openResults(){
+  let rows='',g=0,t=0;
+  for(let i=1;i<=4;i++){const s=quizScores['q'+i];const v=s?s.got+'/'+s.total:'—';if(s){g+=s.got;t+=s.total;}rows+=`<tr><td>Quiz ${i}</td><td>${v}</td></tr>`;}
+  for(let i=1;i<=4;i++){const s=puzzleScores['p'+i];const v=s?s.got+'/'+s.total:'—';if(s){g+=s.got;t+=s.total;}rows+=`<tr><td>Puzzle ${i}</td><td>${v}</td></tr>`;}
+  document.getElementById('resultsBody').innerHTML=rows;
+  const pct=t>0?Math.round(g/t*100):0;
+  const medal=pct>=90?'🏆':pct>=70?'🌟':pct>=50?'👍':'💪';
+  document.getElementById('resultsTotal').textContent=medal+' '+g+'/'+t+' — '+pct+'%';
+  let txt='A2-01 Present Simple\n'+'─'.repeat(28)+'\n';
+  for(let i=1;i<=4;i++){const s=quizScores['q'+i];txt+='Quiz '+i+': '+(s?s.got+'/'+s.total:'—')+'\n';}
+  for(let i=1;i<=4;i++){const s=puzzleScores['p'+i];txt+='Puzzle '+i+': '+(s?s.got+'/'+s.total:'—')+'\n';}
+  txt+='─'.repeat(28)+'\nЗагалом: '+g+'/'+t+' ('+pct+'%)\n';
+  document.getElementById('resultsText').value=txt;
+  document.getElementById('resultsModal').classList.add('open');
+}
+
+function closeResults(){document.getElementById('resultsModal').classList.remove('open');}
+function finishLesson(){openResults();document.querySelector('.results-txt-wrap').style.display='block';}
+function copyResults(){
+  const ta=document.getElementById('resultsText');
+  ta.select();
+  document.execCommand('copy');
+  const btn=document.querySelector('.copy-btn');
+  btn.textContent='✅ Скопійовано!';
+  setTimeout(()=>{btn.innerHTML='📋 Копіювати результат для вчителя';},2000);
+}
+
+buildStepper();
+buildPanels();
+</script>
+</body>
+</html>
