@@ -8,341 +8,847 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
-:root{
-  --blue:#4361ee;--violet:#7c3aed;--teal:#0d9488;--green:#16a34a;
-  --red:#dc2626;--bg:#f8fafc;--card:#ffffff;--text:#1e293b;
-  --muted:#64748b;--border:#e2e8f0;--shadow:0 4px 24px rgba(67,97,238,.10);
-  --radius:16px;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
-.hero{background:linear-gradient(135deg,#1e3a8a 0%,#4361ee 55%,#7c3aed 100%);padding:48px 24px 40px;text-align:center;position:relative;overflow:hidden;}
-.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Ccircle cx='30' cy='30' r='4' fill='%23ffffff' fill-opacity='0.04'/%3E%3C/g%3E%3C/svg%3E");}
-.hero-badge{display:inline-block;background:rgba(255,255,255,.15);color:#fff;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:6px 16px;border-radius:999px;margin-bottom:16px;border:1px solid rgba(255,255,255,.25);}
-.hero h1{color:#fff;font-size:clamp(26px,5vw,42px);font-weight:800;line-height:1.15;margin-bottom:10px;}
-.hero p{color:rgba(255,255,255,.82);font-size:16px;max-width:520px;margin:0 auto;}
-.stepper-wrap{background:#fff;border-bottom:1px solid var(--border);overflow-x:auto;-webkit-overflow-scrolling:touch;}
-.stepper{display:flex;align-items:stretch;min-width:max-content;padding:0 12px;}
-.step-btn{display:flex;flex-direction:column;align-items:center;gap:4px;padding:14px 10px 12px;cursor:pointer;border:none;background:none;font-family:inherit;font-size:11px;color:var(--muted);font-weight:600;white-space:nowrap;position:relative;transition:color .2s;min-width:68px;}
-.step-btn::after{content:'';position:absolute;bottom:0;left:10%;right:10%;height:3px;background:transparent;border-radius:3px 3px 0 0;transition:background .2s;}
-.step-btn .s-icon{font-size:20px;line-height:1;}
-.step-btn.active{color:var(--blue);}
-.step-btn.active::after{background:var(--blue);}
-.step-btn.done{color:var(--green);}
-.step-btn.done::after{background:var(--green);}
-.container{max-width:780px;margin:0 auto;padding:32px 16px 120px;}
-.step-panel{display:none;animation:fadeUp .35s ease both;}
-.step-panel.active{display:block;}
-@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
-.sec-title{font-size:22px;font-weight:800;margin-bottom:6px;}
-.sec-sub{color:var(--muted);font-size:14px;margin-bottom:24px;}
-.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px;margin-bottom:20px;border:1px solid var(--border);}
-.vocab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;}
-.vocab-item{background:linear-gradient(135deg,#eff6ff,#f5f3ff);border:1px solid #c7d2fe;border-radius:12px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:8px;}
-.vocab-word{font-weight:700;font-size:14px;color:var(--text);flex:1;}
-.vocab-ua{font-size:12px;color:var(--muted);font-weight:500;margin-top:3px;}
-.speak-btn{background:var(--blue);color:#fff;border:none;border-radius:8px;width:32px;height:32px;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s;}
-.speak-btn:hover{background:var(--violet);}
-.listen-all-btn{display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--blue),var(--violet));color:#fff;border:none;border-radius:12px;padding:12px 24px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;margin-top:20px;transition:opacity .2s;}
-.listen-all-btn:hover{opacity:.88;}
-.conv-img{width:100%;border-radius:12px;margin-bottom:16px;display:block;}
-.audio-player{width:100%;margin-bottom:20px;}
-.quiz-q{margin-bottom:20px;}
-.quiz-q p{font-weight:700;font-size:15px;margin-bottom:10px;}
-.quiz-opts{display:flex;flex-direction:column;gap:8px;}
-.quiz-opt{background:#f8fafc;border:2px solid var(--border);border-radius:10px;padding:11px 16px;cursor:pointer;font-family:inherit;font-size:14px;font-weight:600;text-align:left;transition:all .18s;}
-.quiz-opt:hover:not(:disabled){border-color:var(--blue);background:#eff6ff;}
-.quiz-opt.correct{border-color:var(--green);background:#f0fdf4;color:var(--green);}
-.quiz-opt.wrong{border-color:var(--red);background:#fef2f2;color:var(--red);}
-.quiz-opt:disabled{cursor:default;}
-.quiz-result{margin-top:14px;padding:12px 16px;border-radius:10px;font-weight:700;font-size:15px;}
-.quiz-result.pass{background:#f0fdf4;color:var(--green);}
-.quiz-result.fail{background:#fef2f2;color:var(--red);}
-.pzl-word-bank{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px;}
-.pzl-chip{background:linear-gradient(135deg,#eff6ff,#f5f3ff);border:1px solid #c7d2fe;border-radius:8px;padding:5px 12px;font-size:13px;font-weight:700;color:var(--violet);}
-.pzl-line{font-size:15px;line-height:2.6;margin-bottom:2px;}
-.pzl-sel{border:2px solid #c7d2fe;border-radius:8px;padding:3px 8px;font-family:inherit;font-size:14px;font-weight:600;background:#f5f3ff;color:var(--violet);cursor:pointer;outline:none;}
-.pzl-sel.correct{border-color:var(--green);background:#f0fdf4;color:var(--green);}
-.pzl-sel.wrong{border-color:var(--red);background:#fef2f2;color:var(--red);}
-.pzl-audio-label{font-size:13px;color:var(--muted);margin:14px 0 6px;font-style:italic;}
-.check-btn{margin-top:14px;background:linear-gradient(135deg,var(--teal),#0891b2);color:#fff;border:none;border-radius:10px;padding:11px 24px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;transition:opacity .2s;}
-.check-btn:hover{opacity:.88;}
-.pzl-score{margin-top:10px;font-weight:700;color:var(--teal);}
-.car-slide{display:none;}
-.car-slide.active{display:block;}
-.car-nav{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:20px;}
-.car-nav button{background:var(--blue);color:#fff;border:none;border-radius:10px;padding:10px 22px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;transition:opacity .2s;}
-.car-nav button:hover:not(:disabled){opacity:.82;}
-.car-nav button:disabled{background:var(--border);color:var(--muted);cursor:default;}
-.car-counter{font-weight:700;color:var(--muted);font-size:14px;}
-.reading-conv{font-size:15px;line-height:2;}
-.reading-line{margin-bottom:4px;}
-.reading-speaker{font-weight:800;color:var(--blue);}
-.reading-tip{background:#f0fdf4;border-left:4px solid var(--teal);padding:12px 16px;border-radius:0 10px 10px 0;font-size:13px;color:#065f46;margin-bottom:18px;}
-.fc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin-bottom:20px;}
-.fc-card{height:140px;perspective:800px;cursor:pointer;}
-.fc-inner{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.4,0,.2,1);}
-.fc-card.flipped .fc-inner{transform:rotateY(180deg);}
-.fc-front,.fc-back{position:absolute;inset:0;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px;backface-visibility:hidden;text-align:center;}
-.fc-front{background:linear-gradient(135deg,#1e3a8a,#4361ee,#7c3aed);color:#fff;}
-.fc-front .fc-phrase{font-size:15px;font-weight:700;margin-bottom:8px;}
-.fc-front .fc-hint{font-size:11px;opacity:.7;}
-.fc-back{background:#fff;border:2px solid #c7d2fe;transform:rotateY(180deg);}
-.fc-back .fc-ua{font-size:15px;font-weight:700;color:var(--violet);}
-.flip-all-btn{background:linear-gradient(135deg,var(--violet),var(--blue));color:#fff;border:none;border-radius:12px;padding:12px 24px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;transition:opacity .2s;}
-.flip-all-btn:hover{opacity:.88;}
-.sp-blank{display:inline-block;width:260px;border-bottom:2px dashed var(--violet);color:var(--muted);font-size:13px;font-style:italic;}
-.sp-interview-note{font-size:12px;color:var(--muted);font-style:italic;text-align:center;margin-bottom:16px;}
-.sp-line{margin-bottom:12px;font-size:15px;line-height:1.6;}
-.sp-role{font-weight:800;color:var(--violet);margin-right:6px;}
-.sp-text{color:var(--text);}
-.sp-car-title{font-weight:800;font-size:17px;color:var(--blue);margin-bottom:16px;}
-.vimeo-wrap{position:relative;padding-bottom:56.25%;height:0;border-radius:14px;overflow:hidden;margin-bottom:20px;}
-.vimeo-wrap iframe{position:absolute;inset:0;width:100%;height:100%;}
-.conv-list{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px;}
-.conv-list li{background:linear-gradient(135deg,#eff6ff,#f5f3ff);border:1px solid #c7d2fe;border-radius:10px;padding:12px 14px;font-weight:600;font-size:14px;}
-.nav-row{display:flex;justify-content:space-between;margin-top:28px;gap:12px;}
-.nav-btn{flex:1;padding:13px 20px;border:none;border-radius:12px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;}
-.nav-btn.prev{background:var(--border);color:var(--muted);}
-.nav-btn.prev:hover{background:#cbd5e1;}
-.nav-btn.next{background:linear-gradient(135deg,var(--blue),var(--violet));color:#fff;}
-.nav-btn.next:hover{opacity:.88;}
-.results-fab{position:fixed;bottom:24px;right:20px;z-index:999;background:linear-gradient(135deg,var(--blue),var(--violet));color:#fff;border:none;border-radius:999px;padding:13px 20px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 6px 24px rgba(67,97,238,.35);transition:transform .2s;}
-.results-fab:hover{transform:scale(1.05);}
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;align-items:center;justify-content:center;padding:16px;}
-.modal-overlay.open{display:flex;}
-.modal{background:#fff;border-radius:20px;padding:28px;max-width:500px;width:100%;max-height:90vh;overflow-y:auto;}
-.modal h2{font-size:20px;font-weight:800;margin-bottom:18px;}
-.results-table{width:100%;border-collapse:collapse;margin-bottom:18px;font-size:14px;}
-.results-table th{background:#f1f5f9;padding:8px 12px;text-align:left;font-weight:700;}
-.results-table td{padding:8px 12px;border-top:1px solid var(--border);}
-.results-total{font-size:20px;font-weight:800;text-align:center;margin:16px 0;color:var(--blue);}
-.results-textarea{width:100%;border:1px solid var(--border);border-radius:10px;padding:12px;font-family:'JetBrains Mono',monospace;font-size:12px;resize:vertical;height:120px;}
-.copy-btn{width:100%;margin-top:10px;background:var(--teal);color:#fff;border:none;border-radius:10px;padding:11px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;}
-.close-btn{width:100%;margin-top:8px;background:var(--border);color:var(--text);border:none;border-radius:10px;padding:11px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;}
+:root{\r
+  --blue:#4361ee;--violet:#7c3aed;--teal:#0d9488;--green:#16a34a;\r
+  --red:#dc2626;--bg:#f8fafc;--card:#ffffff;--text:#1e293b;\r
+  --muted:#64748b;--border:#e2e8f0;--shadow:0 4px 24px rgba(67,97,238,.10);\r
+  --radius:16px;\r
+}\r
+*{box-sizing:border-box;margin:0;padding:0}\r
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;position:relative}\r
+.container{max-width:1000px;margin:0 auto;padding:24px 16px}\r
+header{text-align:center;margin-bottom:32px;background:var(--card);padding:32px 24px;border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid var(--border);position:relative;overflow:hidden}\r
+header::before{content:'';position:absolute;top:0;left:0;right:0;height:6px;background:linear-gradient(90deg,var(--blue),var(--violet))}\r
+.hero-badge{display:inline-flex;align-items:center;padding:6px 16px;background:rgba(67,97,238,.1);color:var(--blue);border-radius:100px;font-size:14px;font-weight:700;letter-spacing:1px;margin-bottom:16px;text-transform:uppercase}\r
+.hero-title{font-size:32px;font-weight:800;color:var(--text);margin-bottom:12px;letter-spacing:-0.5px}\r
+.hero-subtitle{font-size:16px;color:var(--muted);max-width:600px;margin:0 auto;line-height:1.6}\r
+.video-wrapper{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid var(--border);margin-bottom:32px;background:#000}\r
+.video-wrapper iframe{position:absolute;top:0;left:0;width:100%;height:100%}\r
+.nav-tabs{display:flex;background:var(--card);padding:6px;border-radius:14px;box-shadow:var(--shadow);border:1px solid var(--border);margin-bottom:24px;gap:4px;overflow-x:auto;scrollbar-width:none}\r
+.nav-tabs::-webkit-scrollbar{display:none}\r
+.tab-btn{flex:1;min-width:120px;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 16px;border:none;background:none;color:var(--muted);font-family:inherit;font-size:15px;font-weight:600;border-radius:10px;cursor:pointer;transition:all .2s ease;white-space:nowrap}\r
+.tab-btn:hover{color:var(--text);background:rgba(67,97,238,.04)}\r
+.tab-btn.active{color:#fff;background:var(--blue);box-shadow:0 4px 12px rgba(67,97,238,.25)}\r
+.tab-content{display:none}\r
+.tab-content.active{display:block;animation:fadeIn .3s ease}\r
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}\r
+.card{background:var(--card);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);border:1px solid var(--border);margin-bottom:24px}\r
+.card-title{font-size:20px;font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:10px;color:var(--text)}\r
+.q-block{margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--border)}\r
+.q-block:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none}\r
+.q-text{font-size:16px;font-weight:600;margin-bottom:12px;color:var(--text);display:flex;gap:8px}\r
+.options-grid{display:grid;grid-template-columns:1fr;gap:10px}\r
+@media(min-width:640px){.options-grid{grid-template-columns:1fr 1fr}}\r
+.option-btn{display:flex;align-items:center;padding:14px 16px;background:var(--bg);border:2px solid var(--border);border-radius:12px;cursor:pointer;font-family:inherit;font-size:15px;font-weight:500;color:var(--text);text-align:left;transition:all .2s ease}\r
+.option-btn:hover:not(:disabled){border-color:var(--blue);background:rgba(67,97,238,.02)}\r
+.option-btn.selected{border-color:var(--blue);background:rgba(67,97,238,.06);font-weight:600}\r
+.option-btn.correct{border-color:var(--green);background:rgba(22,163,74,.08);color:var(--green);font-weight:600}\r
+.option-btn.wrong{border-color:var(--red);background:rgba(220,38,38,.08);color:var(--red);font-weight:600}\r
+.action-bar{display:flex;justify-content:space-between;align-items:center;margin-top:20px;padding-top:16px;border-top:1px solid var(--border)}\r
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 24px;border:none;border-radius:12px;font-family:inherit;font-size:15px;font-weight:600;cursor:pointer;transition:all .2s ease}\r
+.btn-primary{background:var(--blue);color:#fff;box-shadow:0 4px 12px rgba(67,97,238,.2)}\r
+.btn-primary:hover:not(:disabled){background:#304fdc;transform:translateY(-1px)}\r
+.btn-primary:disabled{background:var(--border);color:var(--muted);box-shadow:none;cursor:not-allowed}\r
+.btn-secondary{background:var(--bg);border:1px solid var(--border);color:var(--text)}\r
+.btn-secondary:hover{background:var(--border)}\r
+.score-badge{font-size:14px;font-weight:700;color:var(--blue);background:rgba(67,97,238,.1);padding:6px 14px;border-radius:100px}\r
+.flashcard-container{display:flex;flex-direction:column;align-items:center;max-width:440px;margin:20px auto}\r
+.flashcard{perspective:1000px;width:100%;height:260px;cursor:pointer;margin-bottom:20px}\r
+.flashcard-inner{position:relative;width:100%;height:100%;text-align:center;transition:transform 0.6s cubic-bezier(0.4,0,0.2,1);transform-style:preserve-3d}\r
+.flashcard.flipped .flashcard-inner{transform:rotateY(180deg)}\r
+.flashcard-front, .flashcard-back{position:absolute;width:100%;height:100%;-webkit-backface-visibility:hidden;backface-visibility:hidden;border-radius:20px;padding:24px;display:flex;flex-direction:column;justify-content:center;align-items:center;box-shadow:var(--shadow);border:1px solid var(--border)}\r
+.flashcard-front{background:#fff;color:var(--text)}\r
+.flashcard-back{background:linear-gradient(135deg, var(--blue), var(--violet));color:#fff;transform:rotateY(180deg);border:none}\r
+.fc-word{font-size:28px;font-weight:800;margin-bottom:8px;letter-spacing:-0.5px}\r
+.fc-type{font-size:12px;text-transform:uppercase;letter-spacing:1px;font-weight:700;color:var(--muted);background:var(--bg);padding:2px 8px;border-radius:4px;margin-bottom:16px}\r
+.flashcard-back .fc-type{color:rgba(255,255,255,0.7);background:rgba(255,255,255,0.15)}\r
+.fc-trans{font-size:24px;font-weight:700;margin-bottom:12px}\r
+.fc-def{font-size:14px;opacity:0.9;max-width:320px;line-height:1.5;margin-bottom:12px;font-style:italic}\r
+.fc-ex{font-size:14px;background:rgba(255,255,255,0.1);padding:8px 12px;border-radius:8px;border-left:3px solid #fff;text-align:left;width:100%}\r
+.fc-hint{font-size:12px;color:var(--muted);position:absolute;bottom:16px}\r
+.fc-controls{display:flex;align-items:center;gap:16px;width:100%;justify-content:center}\r
+.fc-btn{width:44px;height:44px;border-radius:50%;border:1px solid var(--border);background:#fff;color:var(--text);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;font-size:18px;box-shadow:var(--shadow)}\r
+.fc-btn:hover{background:var(--blue);color:#fff;border-color:var(--blue)}\r
+.carousel-nav{display:flex;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:6px;margin-bottom:24px;gap:8px;box-shadow:var(--shadow)}\r
+.c-nav-btn{flex:1;padding:10px;border:none;background:none;font-family:inherit;font-size:14px;font-weight:600;color:var(--muted);cursor:pointer;border-radius:8px;transition:all .2s}\r
+.c-nav-btn:hover{color:var(--text);background:var(--bg)}\r
+.c-nav-btn.active{background:rgba(67,97,238,0.08);color:var(--blue)}\r
+.conv-grid{display:grid;grid-template-columns:1fr;gap:24px}\r
+@media(min-width:768px){.conv-grid{grid-template-columns:260px 1fr}}\r
+.conv-media{display:flex;flex-direction:column;gap:16px}\r
+.conv-img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:12px;border:1px solid var(--border);box-shadow:var(--shadow)}\r
+.audio-player{display:flex;align-items:center;gap:12px;background:var(--bg);padding:10px 14px;border-radius:12px;border:1px solid var(--border)}\r
+.ap-btn{width:36px;height:36px;border-radius:50%;border:none;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;flex-shrink:0}\r
+.ap-btn:hover{background:#304fdc}\r
+.ap-wave{flex:1;height:4px;background:var(--border);border-radius:2px;position:relative;cursor:pointer}\r
+.ap-progress{height:100%;background:var(--blue);border-radius:2px;width:0%}\r
+.ap-time{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);min-width:35px;text-align:right}\r
+.transcript-box{font-size:16px;line-height:1.7;color:var(--text);background:var(--bg);padding:20px;border-radius:12px;border:1px solid var(--border);min-height:150px}\r
+.transcript-box b{color:var(--blue)}\r
+.gap-select{display:inline-block;padding:2px 6px;margin:2px 4px;border:2px solid var(--blue);background:#fff;border-radius:6px;font-family:inherit;font-size:14px;font-weight:600;color:var(--text);cursor:pointer;outline:none;transition:all .2s}\r
+.gap-select.filled{background:rgba(67,97,238,0.05);color:var(--blue)}\r
+.gap-select.correct{border-color:var(--green);background:rgba(22,163,74,0.05);color:var(--green);cursor:default}\r
+.gap-select.wrong{border-color:var(--red);background:rgba(220,38,38,0.05);color:var(--red)}\r
+.puzzle-area{background:var(--bg);border:2px dashed var(--border);border-radius:14px;padding:20px;min-height:70px;display:flex;flex-wrap:wrap;gap:8px;align-content:flex-start;margin-bottom:16px}\r
+.puzzle-slots{background:#fff;border:1px solid var(--border);border-radius:14px;padding:20px;min-height:70px;display:flex;flex-wrap:wrap;gap:8px;align-content:flex-start;margin-bottom:16px;box-shadow:inset 0 2px 4px rgba(0,0,0,0.02)}\r
+.puzzle-word{display:inline-flex;align-items:center;padding:8px 14px;background:#fff;border:1px solid var(--border);border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;user-select:none;box-shadow:0 2px 4px rgba(0,0,0,0.04);transition:all .15s ease}\r
+.puzzle-word:hover{border-color:var(--blue);transform:translateY(-1px);box-shadow:0 4px 8px rgba(67,97,238,0.1)}\r
+.puzzle-word.used{opacity:0.4;cursor:default;pointer-events:none;background:var(--bg);box-shadow:none}\r
+.puzzle-clue{font-size:15px;color:var(--muted);margin-bottom:12px;font-style:italic;display:flex;align-items:center;gap:6px}\r
+.speaking-card{background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:16px}\r
+.speaking-card h3{font-size:16px;font-weight:700;margin-bottom:8px;color:var(--text)}\r
+.speaking-ua{font-size:15px;color:var(--text);line-height:1.5}\r
+.floating-results-btn{position:fixed;bottom:20px;right:20px;z-index:90;background:linear-gradient(135deg, var(--blue), var(--violet));color:#fff;border:none;border-radius:50px;padding:12px 24px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 10px 20px rgba(67,97,238,0.3);display:flex;align-items:center;gap:8px;transition:all .2s}\r
+.floating-results-btn:hover{transform:translateY(-2px);box-shadow:0 12px 24px rgba(67,97,238,0.4)}\r
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(15,23,42,0.6);backdrop-filter:blur(4px);z-index:100;display:none;align-items:center;justify-content:center;padding:16px}\r
+.modal{background:#fff;border-radius:20px;max-width:480px;width:100%;box-shadow:0 25px 50px -12px rgba(0,0,0,0.25);border:1px solid var(--border);overflow:hidden;animation:modalScale .25s ease}\r
+@keyframes modalScale{from{opacity:0;transform:scale(0.95)}to{opacity:1;transform:scale(1)}}\r
+.modal-header{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}\r
+.modal-title{font-size:18px;font-weight:700}\r
+.modal-close{background:none;border:none;font-size:22px;color:var(--muted);cursor:pointer}\r
+.modal-body{padding:24px}\r
+.results-table{width:100%;border-collapse:collapse;margin-bottom:20px}\r
+.results-table th, .results-table td{padding:12px;text-align:left;border-bottom:1px solid var(--border);font-size:15px}\r
+.results-table th{font-weight:700;color:var(--muted)}\r
+.results-table td:last-child{font-family:'JetBrains Mono',monospace;font-weight:600;text-align:right}\r
+.results-total-row{background:var(--bg);font-weight:700;color:var(--blue)}\r
+.results-total-row td{padding:16px 12px;font-size:16px}\r
 </style>
 </head>
 <body>
 
-<div class="hero">
-  <div class="hero-badge">Way2English · A2 · Lesson 01</div>
-  <h1>Present Simple</h1>
-  <p>Чотири короткі діалоги з Present Simple — слухай, читай і практикуйся.</p>
-</div>
+<div class="container">
+  <header>
+    <div class="hero-badge">A2-01</div>
+    <h1 class="hero-title">Present Simple</h1>
+    <p class="hero-subtitle">Вчимося розповідати про роботу, спорт, батьків та житло за допомогою Теперішнього простого часу.</p>
+  </header>
 
-<div class="stepper-wrap"><div class="stepper" id="stepper"></div></div>
-<div class="container" id="panels-container"></div>
+  <div class="video-wrapper">
+    <iframe src="https://player.vimeo.com/video/950450432?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write" title="Video"></iframe>
+  </div>
 
-<button class="results-fab" onclick="openResults()">📊 Результати <span id="fabScore">0/0</span></button>
+  <nav class="nav-tabs">
+    <button class="tab-btn active" onclick="setActiveTab('video')">📺 Відео</button>
+    <button class="tab-btn" onclick="setActiveTab('vocab')">📖 Словник</button>
+    <button class="tab-btn" onclick="setActiveTab('listening')">🎧 Слухання</button>
+    <button class="tab-btn" onclick="setActiveTab('puzzle')">🧩 Пазл</button>
+    <button class="tab-btn" onclick="setActiveTab('speaking')">💬 Говоримо</button>
+  </nav>
 
-<div class="modal-overlay" id="resultsModal">
-  <div class="modal">
-    <h2>📊 Мої результати</h2>
-    <table class="results-table">
-      <thead><tr><th>Завдання</th><th>Результат</th></tr></thead>
-      <tbody id="resultsBody"></tbody>
-    </table>
-    <div class="results-total" id="resultsTotal"></div>
-    <textarea class="results-textarea" id="resultsText" readonly></textarea>
-    <button class="copy-btn" onclick="copyResults()">📋 Скопіювати звіт</button>
-    <button class="close-btn" onclick="closeResults()">Закрити</button>
+  <div id="tab-video" class="tab-content active">
+    <div class="card">
+      <div class="card-title">✨ Запитання до відео</div>
+      <div id="videoQsContainer"></div>
+      <div class="action-bar">
+        <span class="score-badge" id="videoScore">Результат: —</span>
+        <button class="btn btn-primary" id="videoCheckBtn" onclick="checkVideoQuiz()">Перевірити</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="tab-vocab" class="tab-content">
+    <div class="flashcard-container">
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="flashcard-inner">
+          <div class="flashcard-front">
+            <span class="fc-type" id="fcType">noun</span>
+            <div class="fc-word" id="fcWord">Word</div>
+            <span class="fc-hint">Клікни, щоб перевернути 🔄</span>
+          </div>
+          <div class="flashcard-back">
+            <div class="fc-trans" id="fcTrans">Переклад</div>
+            <div class="fc-def" id="fcDef">Definition</div>
+            <div class="fc-ex" id="fcEx">Example sentence</div>
+            <span class="fc-hint">Клікни, щоб повернути 🔄</span>
+          </div>
+        </div>
+      </div>
+      <div class="fc-controls">
+        <button class="fc-btn" onclick="prevFlashcard()">←</button>
+        <span id="fcCounter" style="font-weight:600;min-width:50px;text-align:center">1 / 10</span>
+        <button class="fc-btn" onclick="nextFlashcard()">→</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="tab-listening" class="tab-content">
+    <div class="carousel-nav" id="listeningNav"></div>
+    <div class="conv-grid">
+      <div class="conv-media">
+        <img src="" alt="Conversation Image" class="conv-img" id="convImg">
+        <div class="audio-player">
+          <button class="ap-btn" id="apBtn" onclick="toggleAudio()">▶</button>
+          <div class="ap-wave" onclick="seekAudio(event)">
+            <div class="ap-progress" id="apProgress"></div>
+          </div>
+          <div class="ap-time" id="apTime">00:00</div>
+        </div>
+      </div>
+      <div class="conv-main">
+        <div class="card" style="padding:16px;margin-bottom:16px">
+          <div class="transcript-box" id="transcriptBox"></div>
+        </div>
+        <div class="card" style="margin-bottom:0">
+          <div class="card-title">📝 Запитання на розуміння</div>
+          <div id="convQuizContainer"></div>
+          <div class="action-bar">
+            <span class="score-badge" id="convScore">Результат: —</span>
+            <button class="btn btn-primary" id="convCheckBtn" onclick="checkConvQuiz()">Перевірити</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="tab-puzzle" class="tab-content">
+    <div class="carousel-nav" id="puzzleNav"></div>
+    <div class="card">
+      <div class="card-title" id="puzzleTitle">Пазл речення</div>
+      <div class="puzzle-clue" id="puzzleClue">💡 Переклад з'явиться тут</div>
+      <div class="puzzle-slots" id="puzzleSlots"></div>
+      <div class="puzzle-area" id="puzzleArea"></div>
+      <div class="action-bar">
+        <button class="btn btn-secondary" onclick="resetPuzzle()">Скинути</button>
+        <button class="btn btn-primary" id="puzzleCheckBtn" onclick="checkPuzzle()">Перевірити</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="tab-speaking" class="tab-content">
+    <div class="card">
+      <div class="card-title">🗣️ Практика говоріння (Робота в парах)</div>
+      <div id="speakingContainer"></div>
+    </div>
   </div>
 </div>
 
+<button class="floating-results-btn" onclick="openResults()">📊 Результати</button>
+
+<div class="modal-overlay" id="resultsModal" onclick="if(event.target===this)closeResults()">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Ваші успіхи у цьому уроці</div>
+      <button class="modal-close" onclick="closeResults()">×</button>
+    </div>
+    <div class="modal-body">
+      <table class="results-table">
+        <thead>
+          <tr><th>Завдання</th><th>Бали</th></tr>
+        </thead>
+        <tbody id="resultsBody"></tbody>
+        <tfoot>
+          <tr class="results-total-row"><td>Загальний підсумок</td><td id="resultsTotal">—</td></tr>
+        </tfoot>
+      </table>
+      <button class="btn btn-primary" style="width:100%" onclick="copyResultsString()">📋 Копіювати результати</button>
+    </div>
+  </div>
+</div>
+
+<audio id="mainAudio" ontimeupdate="updateAudioProgress()" onended="audioEnded()"></audio>
+
 <script>
-const STEPS=[
-  {id:'watch',icon:'🎬',label:'Watch'},
-  {id:'words',icon:'📚',label:'Слова'},
-  {id:'conv1',icon:'🎧',label:'Розмова 1'},
-  {id:'conv2',icon:'🎧',label:'Розмова 2'},
-  {id:'conv3',icon:'🎧',label:'Розмова 3'},
-  {id:'conv4',icon:'🎧',label:'Розмова 4'},
-  {id:'puzzle',icon:'🧩',label:'Пазл'},
-  {id:'reading',icon:'📖',label:'Читання'},
-  {id:'cards',icon:'🃏',label:'Картки'},
-  {id:'speaking',icon:'🗣️',label:'Говоримо'},
+const videoQuestions = [\r
+  {\r
+    q: "Про що розмовляють спікери у відео?",\r
+    o: ["Про улюблені фільми та онлайн-відео", "Про роботу в ІТ-компанії", "Про заняття спортом"],\r
+    a: 0\r
+  },\r
+  {\r
+    q: "Який тип відео або контенту згадується у розмові?",\r
+    o: ["Документальні фільми про природу", "Комедії та відео в інтернеті", "Жахи"],\r
+    a: 1\r
+  },\r
+  {\r
+    q: "Як часто спікер дивиться відео онлайн?",\r
+    o: ["Рідко", "Тільки у вихідні дні", "Кожного дня"],\r
+    a: 2\r
+  }\r
 ];
 
-const VOCAB=[
-  {en:'tech company', ua:'технічна компанія'},
-  {en:'design software', ua:'проектувати програмне забезпечення'},
-  {en:'job', ua:'робота'},
-  {en:'downtown', ua:'центр міста'},
-  {en:'get to work', ua:'дістатися до роботи'},
-  {en:'take a bus', ua:'їздити автобусом'},
-  {en:'belong to a gym', ua:'бути членом спортзалу'},
-  {en:'exercise', ua:'працювати над тілом / тренуватися'},
-  {en:'jog together', ua:'бігати разом'},
-  {en:'both', ua:'обидва'},
-  {en:'sales', ua:'продажі'},
-  {en:'sell', ua:'продавати'},
-  {en:'real estate', ua:'нерухомість'},
-  {en:'difficult', ua:'складний'},
-  {en:'area', ua:'район'},
-  {en:'save money', ua:'зберігати гроші'},
-  {en:'roommate', ua:'сусід по квартирі'},
-  {en:'alone', ua:'один(ока)'},
-  {en:'though', ua:'хоча'},
+const vocabData = [\r
+  { word: "tech company", type: "noun", trans: "технологічна компанія", def: "A business that makes or sells technology products", ex: "I work at a big tech company." },\r
+  { word: "design software", type: "verb", trans: "розробляти програмне забезпечення", def: "To create computer programs and applications", ex: "They design software for smartphones." },\r
+  { word: "job", type: "noun", trans: "робота, професія", def: "The regular work that a person does to earn money", ex: "Do you like your new job?" },\r
+  { word: "downtown", type: "noun / adv", trans: "центр міста", def: "The central part or business center of a city", ex: "My office is located downtown." },\r
+  { word: "get to work", type: "phrase", trans: "добиратися до роботи", def: "To travel to the place where you work", ex: "How do you get to work every morning?" },\r
+  { word: "take a bus", type: "phrase", trans: "їхати автобусом", def: "To travel by bus", ex: "I take a bus because I don't have a car." },\r
+  { word: "belong to a gym", type: "phrase", trans: "бути членом спортзалу", def: "To be a member of a fitness center", ex: "Do you belong to a gym near your house?" },\r
+  { word: "exercise", type: "verb", trans: "тренуватися, робити вправи", def: "To do physical activity to stay healthy and strong", ex: "How do you exercise at the gym?" },\r
+  { word: "jog together", type: "phrase", trans: "бігати разом", def: "To run at a slow, steady pace with someone else", ex: "Let's jog together in the park sometime." },\r
+  { word: "both", type: "pronoun", trans: "обидва, разом", def: "The two people or things together", ex: "They both work at the university." },\r
+  { word: "sales", type: "noun", trans: "продажі", def: "The business of selling products or services", ex: "My parents work in sales." },\r
+  { word: "sell", type: "verb", trans: "продавати", def: "To give something to someone in exchange for money", ex: "They sell beautiful houses." },\r
+  { word: "real estate", type: "noun", trans: "нерухомість", def: "Property consisting of houses and land", ex: "They have a successful real estate company." },\r
+  { word: "difficult", type: "adj", trans: "важкий, складний", def: "Not easy to do or understand", ex: "Selling houses can be a difficult job." },\r
+  { word: "area", type: "noun", trans: "район, місцевість", def: "A particular part of a town, country, or the world", ex: "I love that area near the river." },\r
+  { word: "save money", type: "phrase", trans: "заощаджувати гроші", def: "To keep money for future use instead of spending it", ex: "I live with my parents to save money." },\r
+  { word: "roommate", type: "noun", trans: "сусід по кімнаті/квартирі", def: "A person who shares a room or an apartment with you", ex: "I live alone, but I want a roommate." },\r
+  { word: "alone", type: "adj / adv", trans: "один, самостійно", def: "Without any other people", ex: "Do you live alone or with your family?" },\r
+  { word: "though", type: "adverb", trans: "хоча, проте", def: "Used to add a fact or opinion that makes your statement less strong", ex: "I do yoga at home though." }\r
 ];
 
-const CONVS=[
-  {
-    title:'Conversation 1 — Present Simple (Job)',
-    img:'A2-01-1-Present-Simple-Job.jpg', audio:'A2-01-1-Present-Simple-Job.mp3',
-    text:[
-      {role:'Man',   line:'What do you do?'},
-      {role:'Woman', line:'I work at a tech company.'},
-      {role:'Man',   line:'Oh, what do you do there?'},
-      {role:'Woman', line:'I design software.'},
-      {role:'Man',   line:'Do you like your job?'},
-      {role:'Woman', line:'Yeah, I enjoy it.'},
-      {role:'Man',   line:'Where is your office?'},
-      {role:'Woman', line:'I work at the new office downtown.'},
-      {role:'Man',   line:'How do you get to work?'},
-      {role:'Woman', line:'I take the bus. I don’t have a car.'},
-      {role:'Man',   line:'Same here!'},
-    ],
-    questions:[
-      {q:'What does the woman do?', opts:['She sells houses','She makes coffee','She designs software','She teaches'], ans:2},
-      {q:'Where is her office?', opts:['Near the station','In the suburbs','Downtown','At home'], ans:2},
-      {q:'How does she get to work?', opts:['By car','By bus','By bike','On foot'], ans:1},
-    ]
-  },
-  {
-    title:'Conversation 2 — Present Simple (Gym)',
-    img:'A2-01-2-Present-Simple-Gym.jpg', audio:'A2-01-2-Present-Simple-Gym.mp3',
-    text:[
-      {role:'Man',   line:'Do you belong to a gym?'},
-      {role:'Woman', line:'Yes, I go to the gym near my house.'},
-      {role:'Man',   line:'What do you do at the gym? How do you exercise?'},
-      {role:'Woman', line:'On Monday and Tuesday I do yoga, and the gym has a pool, so I sometimes swim.'},
-      {role:'Man',   line:'Oh, I do yoga too! I do it at home though. I watch videos online.'},
-      {role:'Woman', line:'Oh, you don’t belong to a gym?'},
-      {role:'Man',   line:'No, I don’t like gyms. For exercise, I jog in the park, or play soccer with friends.'},
-      {role:'Woman', line:'Oh, that works. I love running in the park.'},
-      {role:'Man',   line:'Cool! Let’s jog together sometime.'},
-      {role:'Woman', line:'I’d like that!'},
-    ],
-    questions:[
-      {q:'Where is the gym?', opts:['Near her house','Downtown','Near the school','At the station'], ans:0},
-      {q:'What does the woman sometimes do?', opts:['Run','Swim','Play soccer','Lift weights'], ans:1},
-      {q:'What does the man do for exercise?', opts:['He goes to the gym','He jogs in the park','He swims','He cycles'], ans:1},
-    ]
-  },
-  {
-    title:'Conversation 3 — Present Simple (Parents)',
-    img:'A2-01-3-Present-Simple-Parents.jpg', audio:'A2-01-3-Present-Simple-Parents.mp3',
-    text:[
-      {role:'Man',   line:'What do your parents do?'},
-      {role:'Woman', line:'They both work in sales.'},
-      {role:'Man',   line:'Oh, what do they sell?'},
-      {role:'Woman', line:'They sell houses. They have a real estate company.'},
-      {role:'Man',   line:'That’s a difficult job.'},
-      {role:'Woman', line:'It is. They work long hours, but they like it.'},
-      {role:'Man',   line:'What about your parents?'},
-      {role:'Woman', line:'They’re professors. They teach at the university.'},
-      {role:'Man',   line:'Oh, what do they teach?'},
-      {role:'Woman', line:'They both teach business.'},
-    ],
-    questions:[
-      {q:'What do the woman\'s parents sell?', opts:['Cars','Books','Houses','Clothes'], ans:2},
-      {q:'What kind of company do they have?', opts:['A tech company','A real estate company','A gym','A school'], ans:1},
-      {q:'What do the man\'s parents do?', opts:['They are doctors','They are professors','They are salespeople','They are engineers'], ans:1},
-    ]
-  },
-  {
-    title:'Conversation 4 — Present Simple (Home)',
-    img:'A2-01-4-Present-Simple-House.jpg', audio:'A2-01-4-Present-Simple-House.mp3',
-    text:[
-      {role:'Man',   line:'Where do you live?'},
-      {role:'Woman', line:'I live near the river.'},
-      {role:'Man',   line:'I love that area. Do you live in a house or an apartment?'},
-      {role:'Woman', line:'I live in a house.'},
-      {role:'Man',   line:'Do you live alone, or with family?'},
-      {role:'Woman', line:'I live with my parents. I don’t pay rent, so I save money.'},
-      {role:'Man',   line:'Do you like it there?'},
-      {role:'Woman', line:'Yes, I do, but my house is old.'},
-      {role:'Man',   line:'I live in a small apartment downtown near the station.'},
-      {role:'Woman', line:'Do you live alone?'},
-      {role:'Man',   line:'I do, but I want a roommate.'},
-      {role:'Woman', line:'Really? How much is the rent?'},
-    ],
-    questions:[
-      {q:'Where does the woman live?', opts:['Near the river','Downtown','At the station','In the countryside'], ans:0},
-      {q:'Does the woman pay rent?', opts:['Yes','No','Sometimes','Only in summer'], ans:1},
-      {q:'What does the man want?', opts:['A house','A car','A roommate','A dog'], ans:2},
-    ]
-  },
+const conversations = [\r
+  {\r
+    id: 1,\r
+    title: "Розмова 1 — Робота",\r
+    audio: "A2-01-1-Present-Simple-Job.mp3",\r
+    image: "A2-01-1-Present-Simple-Job.jpg",\r
+    transcript: "<b>Man:</b> What do you do?<br><b>Woman:</b> I work at a tech company.<br><b>Man:</b> Oh, what do you do there?<br><b>Woman:</b> I design software.<br><b>Man:</b> Do you like your job?<br><b>Woman:</b> Yeah, I enjoy it.<br><b>Man:</b> Where is your office?<br><b>Woman:</b> I work at the new office downtown.<br><b>Man:</b> How do you get to work?<br><b>Woman:</b> I take the bus. I don't have a car.<br><b>Man:</b> Same here!",\r
+    words: ["What", "company", "design", "enjoy", "Where", "new", "How", "car"],\r
+    gappedTranscript: "<b>Man:</b> {0} do you do?<br><b>Woman:</b> I work at a tech {1}.<br><b>Man:</b> Oh, what do you do there?<br><b>Woman:</b> I {2} software.<br><b>Man:</b> Do you like your job?<br><b>Woman:</b> Yeah, I {3} it.<br><b>Man:</b> {4} is your office?<br><b>Woman:</b> I work at the {5} office downtown.<br><b>Man:</b> {6} do you get to work?<br><b>Woman:</b> I take the bus. I don't have a {7}.<br><b>Man:</b> Same here!",\r
+    quiz: [\r
+      { q: "What does the woman do?", o: ["She designs software", "She drives a bus", "She owns a tech store"], a: 0 },\r
+      { q: "How does the woman get to work?", o: ["She drives a new car", "She walks downtown", "She takes the bus"], a: 2 }\r
+    ]\r
+  },\r
+  {\r
+    id: 2,\r
+    title: "Розмова 2 — Спортзал",\r
+    audio: "A2-01-2-Present-Simple-Gym.mp3",\r
+    image: "A2-01-2-Present-Simple-Gym.jpg",\r
+    transcript: "<b>Man:</b> Do you belong to a gym?<br><b>Woman:</b> Yes, I go to the gym near my house.<br><b>Man:</b> What do you do at the gym? How do you exercise?<br><b>Woman:</b> On Monday and Tuesday I do yoga, and the gym has a pool, so I sometimes swim.<br><b>Man:</b> Oh, I do yoga too! I do it at home though. I watch videos online.<br><b>Woman:</b> Oh, you don't belong to a gym?<br><b>Man:</b> No, I don't like gyms. For exercise, I jog in the park, or play soccer with friends.<br><b>Woman:</b> Oh, that works. I love running in the park.<br><b>Man:</b> Cool! Let's jog together sometime.<br><b>Woman:</b> I'd like that!",\r
+    words: ["belong", "near", "exercise", "swim", "home", "like", "soccer", "running"],\r
+    gappedTranscript: "<b>Man:</b> Do you {0} to a gym?<br><b>Woman:</b> Yes, I go to the gym {1} my house.<br><b>Man:</b> What do you do at the gym? How do you {2}?<br><b>Woman:</b> On Monday and Tuesday I do yoga, and the gym has a pool, so I sometimes {3}.<br><b>Man:</b> Oh, I do yoga too! I do it at {4} though. I watch videos online.<br><b>Woman:</b> Oh, you don't belong to a gym?<br><b>Man:</b> No, I don't {5} gyms. For exercise, I jog in the park, or play {6} with friends.<br><b>Woman:</b> Oh, that works. I love {7} in the park.<br><b>Man:</b> Cool! Let's jog together sometime.<br><b>Woman:</b> I'd like that!",\r
+    quiz: [\r
+      { q: "Where does the woman do yoga?", o: ["At home online", "At the gym near her house", "In the park with friends"], a: 1 },\r
+      { q: "What does the man do for exercise?", o: ["He exercises at the gym", "He swims in a pool", "He jogs in the park and plays soccer"], a: 2 }\r
+    ]\r
+  },\r
+  {\r
+    id: 3,\r
+    title: "Розмова 3 — Батьки",\r
+    audio: "A2-01-3-Present-Simple-Parents.mp3",\r
+    image: "A2-01-3-Present-Simple-Parents.jpg",\r
+    transcript: "<b>Man:</b> What do your parents do?<br><b>Woman:</b> They both work in sales.<br><b>Man:</b> Oh, what do they sell?<br><b>Woman:</b> They sell houses. They have a real estate company.<br><b>Man:</b> That's a difficult job.<br><b>Woman:</b> It is. They work long hours, but they like it. What about your parents?<br><b>Man:</b> They're professors. They teach at the university.<br><b>Woman:</b> Oh, what do they teach?<br><b>Man:</b> They both teach business.",\r
+    words: ["both", "sell", "estate", "difficult", "long", "teach", "teach", "business"],\r
+    gappedTranscript: "<b>Man:</b> What do your parents do?<br><b>Woman:</b> They {0} work in sales.<br><b>Man:</b> Oh, what do they {1}?<br><b>Woman:</b> They sell houses. They have a real {2} company.<br><b>Man:</b> That's a {3} job.<br><b>Woman:</b> It is. They work {4} hours, but they like it. What about your parents?<br><b>Man:</b> They're professors. They {5} at the university.<br><b>Woman:</b> Oh, what do they {6}?<br><b>Man:</b> They both teach {7}.",\r
+    quiz: [\r
+      { q: "What kind of company do the woman's parents have?", o: ["A business school", "A software company", "A real estate company"], a: 2 },\r
+      { q: "What do the man's parents do?", o: ["They are university professors", "They work long hours in sales", "They sell big houses"], a: 0 }\r
+    ]\r
+  },\r
+  {\r
+    id: 4,\r
+    title: "Розмова 4 — Будинок",\r
+    audio: "A2-01-4-Present-Simple-House.mp3",\r
+    image: "A2-01-4-Present-Simple-House.jpg",\r
+    transcript: "<b>Man:</b> Where do you live?<br><b>Woman:</b> I live near the river.<br><b>Man:</b> I love that area. Do you live in a house or an apartment?<br><b>Woman:</b> I live in a house.<br><b>Man:</b> Do you live alone, or with family?<br><b>Woman:</b> I live with my parents. I don't pay rent, so I save money.<br><b>Man:</b> Do you like it there?<br><b>Woman:</b> Yes, I do, but my house is old. What about you?<br><b>Man:</b> I live in a small apartment downtown near the station.<br><b>Man:</b> Do you live alone?<br><b>Woman:</b> Yes, I do, but I want a roommate.<br><b>Man:</b> Really? How much is the rent?",\r
+    words: ["live", "house", "alone", "pay", "old", "station", "roommate", "rent"],\r
+    gappedTranscript: "<b>Man:</b> Where do you {0}?<br><b>Woman:</b> I live near the river.<br><b>Man:</b> I love that area. Do you live in a {1} or an apartment?<br><b>Woman:</b> I live in a house.<br><b>Man:</b> Do you live {2}, or with family?<br><b>Woman:</b> I live with my parents. I don't {3} rent, so I save money.<br><b>Man:</b> Do you like it there?<br><b>Woman:</b> Yes, I do, but my house is {4}. What about you?<br><b>Man:</b> I live in a small apartment downtown near the {5}.<br><b>Man:</b> Do you live alone?<br><b>Woman:</b> Yes, I do, but I want a {6}.<br><b>Man:</b> Really? How much is the {7}?",\r
+    quiz: [\r
+      { q: "Why does the woman live with her parents?", o: ["Because she loves her old house", "To save money because she doesn't pay rent", "Because she doesn't want to live near the river"], a: 1 },\r
+      { q: "What does the man want?", o: ["He wants a roommate for his apartment", "He wants to live with his parents", "He wants to buy a house downtown"], a: 0 }\r
+    ]\r
+  }\r
 ];
 
-function showPzlSlide(idx){
-  carState.p=idx;
-  document.querySelectorAll('.pzl-card').forEach((c,i)=>c.style.display=i===idx?'block':'none');
-  document.getElementById('pzl-prev').disabled=idx===0;
-  document.getElementById('pzl-next').disabled=idx===3;
-  document.getElementById('pzl-ind').textContent=(idx+1)+' / 4';
-}
+const puzzlesData = [\r
+  {\r
+    id: 1,\r
+    title: "Пазл 1 — Про роботу",\r
+    sentence: "I design software at a tech company",\r
+    clue: "Я розробляю програмне забезпечення в технологічній компанії."\r
+  },\r
+  {\r
+    id: 2,\r
+    title: "Пазл 2 — Спортзал",\r
+    sentence: "I go to the gym near my house",\r
+    clue: "Я ходжу в спортзал поблизу мого дому."\r
+  },\r
+  {\r
+    id: 3,\r
+    title: "Пазл 3 — Батьки",\r
+    sentence: "They both teach business at the university",\r
+    clue: "Вони обидва викладають бізнес в університеті."\r
+  },\r
+  {\r
+    id: 4,\r
+    title: "Пазл 4 — Про житло",\r
+    sentence: "I live in a small apartment downtown",\r
+    clue: "Я живу в маленькій квартирі в центрі міста."\r
+  }\r
+];
 
-function showCarSlide(id,idx){
-  carState[id]=idx;
-  const prefix=id==='r'?'rslide':'spslide';
-  document.querySelectorAll(`[id^="${prefix}-"]`).forEach((s,i)=>s.style.display=i===idx?'block':'none');
-  document.getElementById(id+'-prev').disabled=idx===0;
-  document.getElementById(id+'-next').disabled=idx===3;
-  document.getElementById(id+'-ind').textContent=(idx+1)+' / 4';
-}
+const speakingData = [\r
+  {\r
+    title: "Ситуація 1 — Професія та офіс",\r
+    ua: "Студент А запитує: 'What do you do?' та 'Where is your office?'. Студент Б розповідає про свою роботу в компанії та як він туди добирається."\r
+  },\r
+  {\r
+    title: "Ситуація 2 — Тренування та здоровий спосіб життя",\r
+    ua: "Студент А запитує: 'Do you belong to a gym?' та 'How do you exercise?'. Студент Б відповідає, де саме він займається (вдома, в парку чи у залі) і чи робить він йогу або грає в футбол."\r
+  },\r
+  {\r
+    title: "Ситуація 3 — Родина та робота батьків",\r
+    ua: "Студент А запитує: 'What do your parents do?' та 'Is it a difficult job?'. Студент Б розповідає про професію батьків, тривалість робочого дня та чи подобається вона їм."\r
+  },\r
+  {\r
+    title: "Ситуація 4 — Місце проживання та житло",\r
+    ua: "Студент А запитує: 'Where do you live?', 'Do you live alone?' та 'Do you pay rent?'. Студент Б розповідає про свій будинок або квартиру, район міста та проживання з батьками чи сусідами."\r
+  }\r
+];
 
-function navCar(id,dir){
-  let n=(carState[id]||0)+dir;
-  if(n<0)n=0;if(n>3)n=3;
-  if(id==='p')showPzlSlide(n);
-  else showCarSlide(id,n);
-}
-
-function toggleAllCards(){
-  allFlipped=!allFlipped;
-  document.querySelectorAll('.fc-card').forEach(c=>{
-    if(allFlipped)c.classList.add('flipped');
-    else c.classList.remove('flipped');
-  });
-}
-
-function updateTopBadge(){
-  let g=0,t=0;
-  for(let i=1;i<=4;i++){const s=quizScores['q'+i];if(s){g+=s.got;t+=s.total;}}
-  for(let i=1;i<=4;i++){const s=puzzleScores['p'+i];if(s){g+=s.got;t+=s.total;}}
-  document.getElementById('topScore').textContent=g+'/'+t;
-}
-
-function openResults(){
-  let rows='',g=0,t=0;
-  for(let i=1;i<=4;i++){const s=quizScores['q'+i];const v=s?s.got+'/'+s.total:'—';if(s){g+=s.got;t+=s.total;}rows+=`<tr><td>Quiz ${i}</td><td>${v}</td></tr>`;}
-  for(let i=1;i<=4;i++){const s=puzzleScores['p'+i];const v=s?s.got+'/'+s.total:'—';if(s){g+=s.got;t+=s.total;}rows+=`<tr><td>Puzzle ${i}</td><td>${v}</td></tr>`;}
-  document.getElementById('resultsBody').innerHTML=rows;
-  const pct=t>0?Math.round(g/t*100):0;
-  const medal=pct>=90?'🏆':pct>=70?'🌟':pct>=50?'👍':'💪';
-  document.getElementById('resultsTotal').textContent=medal+' '+g+'/'+t+' — '+pct+'%';
-  let txt='A2-01 Present Simple\n'+'─'.repeat(28)+'\n';
-  for(let i=1;i<=4;i++){const s=quizScores['q'+i];txt+='Quiz '+i+': '+(s?s.got+'/'+s.total:'—')+'\n';}
-  for(let i=1;i<=4;i++){const s=puzzleScores['p'+i];txt+='Puzzle '+i+': '+(s?s.got+'/'+s.total:'—')+'\n';}
-  txt+='─'.repeat(28)+'\nЗагалом: '+g+'/'+t+' ('+pct+'%)\n';
-  document.getElementById('resultsText').value=txt;
-  document.getElementById('resultsModal').classList.add('open');
-}
-
-function closeResults(){document.getElementById('resultsModal').classList.remove('open');}
-function finishLesson(){openResults();document.querySelector('.results-txt-wrap').style.display='block';}
-function copyResults(){
-  const ta=document.getElementById('resultsText');
-  ta.select();
-  document.execCommand('copy');
-  const btn=document.querySelector('.copy-btn');
-  btn.textContent='✅ Скопійовано!';
-  setTimeout(()=>{btn.innerHTML='📋 Копіювати результат для вчителя';},2000);
-}
-
-buildStepper();
-buildPanels();
+let activeTab = 'video';\r
+let currentFcIdx = 0;\r
+let currentConvIdx = 0;\r
+let currentPuzzleIdx = 0;\r
+\r
+let selectedVideoAnswers = {};\r
+let selectedConvAnswers = {};\r
+let filledGaps = {}; \r
+let puzzleState = [];\r
+\r
+let quizScores = {};\r
+let puzzleScores = {};\r
+\r
+function setActiveTab(tabId){\r
+  activeTab = tabId;\r
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));\r
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));\r
+  \r
+  const btn = Array.from(document.querySelectorAll('.tab-btn')).find(b => b.onclick.toString().includes(tabId));\r
+  if(btn) btn.classList.add('active');\r
+  \r
+  const pane = document.getElementById('tab-' + tabId);\r
+  if(pane) pane.classList.add('active');\r
+  \r
+  pauseAudio();\r
+  \r
+  if(tabId === 'vocab') initVocab();\r
+  if(tabId === 'listening') renderConversations();\r
+  if(tabId === 'puzzle') initPuzzle();\r
+  if(tabId === 'speaking') renderSpeaking();\r
+}\r
+\r
+// --- VIDEO LOGIC ---\r
+function initVideoQs(){\r
+  let html = '';\r
+  videoQuestions.forEach((q, qIdx) => {\r
+    html += `<div class="q-block">`;\r
+    html += `<div class="q-text"><span>${qIdx+1}.</span> <div>${q.q}</div></div>`;\r
+    html += `<div class="options-grid">`;\r
+    q.o.forEach((opt, oIdx) => {\r
+      html += `<button class="option-btn" id="v-opt-${qIdx}-${oIdx}" onclick="selectVideoOpt(${qIdx}, ${oIdx})">${opt}</button>`;\r
+    });\r
+    html += `</div></div>`;\r
+  });\r
+  document.getElementById('videoQsContainer').innerHTML = html;\r
+}\r
+\r
+function selectVideoOpt(qIdx, oIdx){\r
+  if(quizScores['video']) return;\r
+  const q = videoQuestions[qIdx];\r
+  q.o.forEach((_, i) => {\r
+    document.getElementById(`v-opt-${qIdx}-${i}`).classList.remove('selected');\r
+  });\r
+  document.getElementById(`v-opt-${qIdx}-${oIdx}`).classList.add('selected');\r
+  selectedVideoAnswers[qIdx] = oIdx;\r
+}\r
+\r
+function checkVideoQuiz(){\r
+  if(quizScores['video']) return;\r
+  let correctCount = 0;\r
+  let allAnswered = true;\r
+  \r
+  videoQuestions.forEach((q, qIdx) => {\r
+    if(selectedVideoAnswers[qIdx] === undefined) allAnswered = false;\r
+  });\r
+  \r
+  if(!allAnswered && !confirm("Ви відповіли не на всі запитання. Продовжити?")) return;\r
+  \r
+  videoQuestions.forEach((q, qIdx) => {\r
+    const ans = selectedVideoAnswers[qIdx];\r
+    q.o.forEach((_, oIdx) => {\r
+      const btn = document.getElementById(`v-opt-${qIdx}-${oIdx}`);\r
+      btn.disabled = true;\r
+      if(oIdx === q.a) btn.classList.add('correct');\r
+      if(ans === oIdx && oIdx !== q.a) btn.classList.add('wrong');\r
+    });\r
+    if(ans === q.a) correctCount++;\r
+  });\r
+  \r
+  quizScores['video'] = { got: correctCount, total: videoQuestions.length };\r
+  document.getElementById('videoScore').textContent = `Результат: ${correctCount} / ${videoQuestions.length}`;\r
+  document.getElementById('videoCheckBtn').disabled = true;\r
+}\r
+\r
+// --- VOCAB LOGIC ---\r
+function initVocab(){\r
+  currentFcIdx = 0;\r
+  showFlashcard();\r
+}\r
+\r
+function showFlashcard(){\r
+  const f = vocabData[currentFcIdx];\r
+  document.querySelector('.flashcard').classList.remove('flipped');\r
+  document.getElementById('fcType').textContent = f.type;\r
+  document.getElementById('fcWord').textContent = f.word;\r
+  document.getElementById('fcTrans').textContent = f.trans;\r
+  document.getElementById('fcDef').textContent = f.def;\r
+  document.getElementById('fcEx').textContent = f.ex;\r
+  document.getElementById('fcCounter').textContent = `${currentFcIdx + 1} / ${vocabData.length}`;\r
+}\r
+\r
+function nextFlashcard(){\r
+  currentFcIdx = (currentFcIdx + 1) % vocabData.length;\r
+  showFlashcard();\r
+}\r
+\r
+function prevFlashcard(){\r
+  currentFcIdx = (currentFcIdx - 1 + vocabData.length) % vocabData.length;\r
+  showFlashcard();\r
+}\r
+\r
+// --- LISTENING LOGIC ---\r
+function renderConversations(){\r
+  let navHtml = '';\r
+  conversations.forEach((c, idx) => {\r
+    navHtml += `<button class="c-nav-btn ${idx===currentConvIdx?'active':''}" onclick="setConversation(${idx})">${c.title}</button>`;\r
+  });\r
+  document.getElementById('listeningNav').innerHTML = navHtml;\r
+  \r
+  const c = conversations[currentConvIdx];\r
+  document.getElementById('convImg').src = c.image;\r
+  \r
+  const key = 'q' + c.id;\r
+  const isChecked = !!quizScores[key];\r
+  \r
+  let transHtml = c.gappedTranscript;\r
+  c.words.forEach((w, wIdx) => {\r
+    const gapKey = `${c.id}-${wIdx}`;\r
+    const curVal = filledGaps[gapKey] !== undefined ? filledGaps[gapKey] : '';\r
+    \r
+    if(isChecked){\r
+      const isCorrect = parseInt(curVal) === wIdx;\r
+      const cls = isCorrect ? 'correct' : 'wrong';\r
+      transHtml = transHtml.replace(`{${wIdx}}`, `<span class="gap-select ${cls}">${w}</span>`);\r
+    } else {\r
+      let sel = `<select class="gap-select ${curVal!==''?'filled':''}" onchange="selectGap(${c.id}, ${wIdx}, this)">`;\r
+      sel += `<option value="">···</option>`;\r
+      \r
+      let shuffled = c.words.map((word, i) => ({ word, i })).sort((a,b) => a.word.localeCompare(b.word));\r
+      shuffled.forEach(item => {\r
+        sel += `<option value="${item.i}" ${parseInt(curVal)===item.i?'selected':''}>${item.word}</option>`;\r
+      });\r
+      sel += `</select>`;\r
+      transHtml = transHtml.replace(`{${wIdx}}`, sel);\r
+    }\r
+  });\r
+  document.getElementById('transcriptBox').innerHTML = transHtml;\r
+  \r
+  let quizHtml = '';\r
+  c.quiz.forEach((q, qIdx) => {\r
+    quizHtml += `<div class="q-block">`;\r
+    quizHtml += `<div class="q-text"><span>${qIdx+1}.</span> <div>${q.q}</div></div>`;\r
+    quizHtml += `<div class="options-grid">`;\r
+    q.o.forEach((opt, oIdx) => {\r
+      let cls = '';\r
+      const userAns = selectedConvAnswers[`${c.id}-${qIdx}`];\r
+      if(isChecked){\r
+        if(oIdx === q.a) cls = 'correct';\r
+        if(userAns === oIdx && oIdx !== q.a) cls = 'wrong';\r
+      } else {\r
+        if(userAns === oIdx) cls = 'selected';\r
+      }\r
+      quizHtml += `<button class="option-btn ${cls}" ${isChecked?'disabled':''} id="c-opt-${qIdx}-${oIdx}" onclick="selectConvOpt(${qIdx}, ${oIdx})">${opt}</button>`;\r
+    });\r
+    quizHtml += `</div></div>`;\r
+  });\r
+  document.getElementById('convQuizContainer').innerHTML = quizHtml;\r
+  \r
+  const scoreBadge = document.getElementById('convScore');\r
+  const checkBtn = document.getElementById('convCheckBtn');\r
+  if(isChecked){\r
+    scoreBadge.textContent = `Результат: ${quizScores[key].got} / ${quizScores[key].total}`;\r
+    checkBtn.disabled = true;\r
+  } else {\r
+    scoreBadge.textContent = `Результат: —`;\r
+    checkBtn.disabled = false;\r
+  }\r
+  \r
+  const audio = document.getElementById('mainAudio');\r
+  audio.src = c.audio;\r
+  document.getElementById('apBtn').textContent = '▶';\r
+  document.getElementById('apProgress').style.width = '0%';\r
+  document.getElementById('apTime').textContent = '00:00';\r
+}\r
+\r
+function setConversation(idx){\r
+  currentConvIdx = idx;\r
+  renderConversations();\r
+}\r
+\r
+function selectGap(convId, gapIdx, selectEl){\r
+  filledGaps[`${convId}-${gapIdx}`] = selectEl.value;\r
+  if(selectEl.value !== "") selectEl.classList.add('filled');\r
+  else selectEl.classList.remove('filled');\r
+}\r
+\r
+function selectConvOpt(qIdx, oIdx){\r
+  const c = conversations[currentConvIdx];\r
+  if(quizScores['q'+c.id]) return;\r
+  c.quiz[qIdx].o.forEach((_, i) => {\r
+    document.getElementById(`c-opt-${qIdx}-${i}`).classList.remove('selected');\r
+  });\r
+  document.getElementById(`c-opt-${qIdx}-${oIdx}`).classList.add('selected');\r
+  selectedConvAnswers[`${c.id}-${qIdx}`] = oIdx;\r
+}\r
+\r
+function checkConvQuiz(){\r
+  const c = conversations[currentConvIdx];\r
+  const key = 'q' + c.id;\r
+  if(quizScores[key]) return;\r
+  \r
+  let totalItems = c.words.length + c.quiz.length;\r
+  let correctItems = 0;\r
+  \r
+  c.words.forEach((_, wIdx) => {\r
+    const val = filledGaps[`${c.id}-${wIdx}`];\r
+    if(parseInt(val) === wIdx) correctItems++;\r
+  });\r
+  \r
+  c.quiz.forEach((q, qIdx) => {\r
+    const val = selectedConvAnswers[`${c.id}-${qIdx}`];\r
+    if(val === q.a) correctItems++;\r
+  });\r
+  \r
+  quizScores[key] = { got: correctItems, total: totalItems };\r
+  renderConversations();\r
+}\r
+\r
+// --- AUDIO PLAYER LOGIC ---\r
+function toggleAudio(){\r
+  const audio = document.getElementById('mainAudio');\r
+  const btn = document.getElementById('apBtn');\r
+  if(audio.paused){\r
+    audio.play();\r
+    btn.textContent = '⏸';\r
+  } else {\r
+    audio.pause();\r
+    btn.textContent = '▶';\r
+  }\r
+}\r
+\r
+function pauseAudio(){\r
+  const audio = document.getElementById('mainAudio');\r
+  audio.pause();\r
+  const btn = document.getElementById('apBtn');\r
+  if(btn) btn.textContent = '▶';\r
+}\r
+\r
+function updateAudioProgress(){\r
+  const audio = document.getElementById('mainAudio');\r
+  const progress = document.getElementById('apProgress');\r
+  const time = document.getElementById('apTime');\r
+  if(audio.duration){\r
+    const pct = (audio.currentTime / audio.duration) * 100;\r
+    if(progress) progress.style.width = pct + '%';\r
+    \r
+    let mins = Math.floor(audio.currentTime / 60);\r
+    let secs = Math.floor(audio.currentTime % 60);\r
+    if(mins<10) mins = '0'+mins;\r
+    if(secs<10) secs = '0'+secs;\r
+    if(time) time.textContent = `${mins}:${secs}`;\r
+  }\r
+}\r
+\r
+function seekAudio(e){\r
+  const audio = document.getElementById('mainAudio');\r
+  const wave = e.currentTarget;\r
+  const rect = wave.getBoundingClientRect();\r
+  const clickX = e.clientX - rect.left;\r
+  const width = rect.width;\r
+  if(audio.duration){\r
+    audio.currentTime = (clickX / width) * audio.duration;\r
+  }\r
+}\r
+\r
+function audioEnded(){\r
+  document.getElementById('apBtn').textContent = '▶';\r
+  document.getElementById('apProgress').style.width = '0%';\r
+  document.getElementById('apTime').textContent = '00:00';\r
+}\r
+\r
+// --- PUZZLE LOGIC ---\r
+function initPuzzle(){\r
+  let navHtml = '';\r
+  puzzlesData.forEach((p, idx) => {\r
+    navHtml += `<button class="c-nav-btn ${idx===currentPuzzleIdx?'active':''}" onclick="setPuzzle(${idx})">${p.title}</button>`;\r
+  });\r
+  document.getElementById('puzzleNav').innerHTML = navHtml;\r
+  \r
+  const p = puzzlesData[currentPuzzleIdx];\r
+  document.getElementById('puzzleTitle').textContent = p.title;\r
+  document.getElementById('puzzleClue').innerHTML = `💡 <b>Переклад:</b> ${p.clue}`;\r
+  \r
+  puzzleState = [];\r
+  renderPuzzle();\r
+}\r
+\r
+function setPuzzle(idx){\r
+  currentPuzzleIdx = idx;\r
+  initPuzzle();\r
+}\r
+\r
+function renderPuzzle(){\r
+  const p = puzzlesData[currentPuzzleIdx];\r
+  const key = 'p' + p.id;\r
+  const isChecked = !!puzzleScores[key];\r
+  \r
+  let cleanWords = p.sentence.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"").split(/\s+/);\r
+  \r
+  let slotsHtml = '';\r
+  cleanWords.forEach((_, idx) => {\r
+    const wordObj = puzzleState[idx];\r
+    if(wordObj){\r
+      let cls = '';\r
+      if(isChecked){\r
+        cls = wordObj.originWord === cleanWords[idx] ? 'correct' : 'wrong';\r
+      }\r
+      slotsHtml += `<span class="puzzle-word ${cls}" onclick="removePuzzleWord(${idx})">${wordObj.originWord}</span>`;\r
+    } else {\r
+      slotsHtml += `<span class="puzzle-word" style="visibility:hidden;pointer-events:none">·</span>`;\r
+    }\r
+  });\r
+  document.getElementById('puzzleSlots').innerHTML = slotsHtml;\r
+  \r
+  if(isChecked){\r
+    document.getElementById('puzzleArea').innerHTML = `<p style="color:var(--blue);font-weight:700">Правильна відповідь: <span style="font-family:'JetBrains Mono',monospace;color:var(--text)">${p.sentence}</span></p>`;\r
+    document.getElementById('puzzleCheckBtn').disabled = true;\r
+    return;\r
+  }\r
+  \r
+  document.getElementById('puzzleCheckBtn').disabled = false;\r
+  \r
+  let poolHtml = '';\r
+  if(!p._shuffled || p._shuffledCode !== p.sentence){\r
+    p._shuffled = cleanWords.map((w, i) => ({ word: w, idx: i })).sort(() => Math.random() - 0.5);\r
+    p._shuffledCode = p.sentence;\r
+  }\r
+  \r
+  p._shuffled.forEach(item => {\r
+    const isUsed = puzzleState.some(s => s && s.poolIdx === item.idx);\r
+    poolHtml += `<span class="puzzle-word ${isUsed?'used':''}" onclick="addPuzzleWord('${item.word.replace(/'/g, "\\'")}', ${item.idx})">${item.word}</span>`;\r
+  });\r
+  document.getElementById('puzzleArea').innerHTML = poolHtml;\r
+}\r
+\r
+function addPuzzleWord(word, poolIdx){\r
+  const p = puzzlesData[currentPuzzleIdx];\r
+  if(puzzleScores['p'+p.id]) return;\r
+  for(let i=0; i<p.sentence.split(/\s+/).length; i++){\r
+    if(!puzzleState[i]){\r
+      puzzleState[i] = { originWord: word, poolIdx: poolIdx };\r
+      break;\r
+    }\r
+  }\r
+  renderPuzzle();\r
+}\r
+\r
+function removePuzzleWord(idx){\r
+  const p = puzzlesData[currentPuzzleIdx];\r
+  if(puzzleScores['p'+p.id]) return;\r
+  puzzleState[idx] = null;\r
+  renderPuzzle();\r
+}\r
+\r
+function resetPuzzle(){\r
+  const p = puzzlesData[currentPuzzleIdx];\r
+  if(puzzleScores['p'+p.id]) return;\r
+  puzzleState = [];\r
+  renderPuzzle();\r
+}\r
+\r
+function checkPuzzle(){\r
+  const p = puzzlesData[currentPuzzleIdx];\r
+  const key = 'p' + p.id;\r
+  if(puzzleScores[key]) return;\r
+  \r
+  let cleanWords = p.sentence.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"").split(/\s+/);\r
+  let correctCount = 0;\r
+  \r
+  cleanWords.forEach((w, idx) => {\r
+    if(puzzleState[idx] && puzzleState[idx].originWord === w) correctCount++;\r
+  });\r
+  \r
+  puzzleScores[key] = { got: correctCount, total: cleanWords.length };\r
+  renderPuzzle();\r
+}\r
+\r
+// --- SPEAKING LOGIC ---\r
+function renderSpeaking(){\r
+  let html = '';\r
+  speakingData.forEach((item, index) => {\r
+    html += `\r
+      <div class="speaking-card">\r
+        <h3>${item.title}</h3>\r
+        <p class="speaking-ua">${item.ua}</p>\r
+      </div>\r
+    `;\r
+  });\r
+  document.getElementById('speakingContainer').innerHTML = html;\r
+}\r
+\r
+// --- RESULTS LOGIC ---\r
+function openResults(){\r
+  let rows = '', g = 0, t = 0;\r
+  \r
+  const v = quizScores['video'];\r
+  if(v){ g += v.got; t += v.total; }\r
+  rows += `<tr><td>Відео квіз</td><td>${v ? v.got+'/'+v.total : '—'}</td></tr>`;\r
+  \r
+  for(let i=1; i<=4; i++){\r
+    const s = quizScores['q'+i];\r
+    if(s){ g += s.got; t += s.total; }\r
+    rows += `<tr><td>Слухання (Розмова ${i})</td><td>${s ? s.got+'/'+s.total : '—'}</td></tr>`;\r
+  }\r
+  \r
+  for(let i=1; i<=4; i++){\r
+    const s = puzzleScores['p'+i];\r
+    if(s){ g += s.got; t += s.total; }\r
+    rows += `<tr><td>Пазл речення ${i}</td><td>${s ? s.got+'/'+s.total : '—'}</td></tr>`;\r
+  }\r
+  \r
+  document.getElementById('resultsBody').innerHTML = rows;\r
+  const pct = t > 0 ? Math.round(g/t*100) : 0;\r
+  const medal = pct >= 90 ? '🏆' : pct >= 70 ? '🌟' : pct >= 50 ? '👍' : '💪';\r
+  document.getElementById('resultsTotal').textContent = `${medal} ${g}/${t} — ${pct}%`;\r
+  document.getElementById('resultsModal').style.display = 'flex';\r
+}\r
+\r
+function closeResults(){\r
+  document.getElementById('resultsModal').style.display = 'none';\r
+}\r
+\r
+function copyResultsString(){\r
+  let txt = 'A2-01 Present Simple\\n' + '─'.repeat(28) + '\\n';\r
+  const v = quizScores['video'];\r
+  txt += `Video Quiz: ${v ? v.got+'/'+v.total : '—'}\\n`;\r
+  for(let i=1; i<=4; i++){\r
+    const s = quizScores['q'+i];\r
+    txt += `Listening ${i}: ${s ? s.got+'/'+s.total : '—'}\\n`;\r
+  }\r
+  for(let i=1; i<=4; i++){\r
+    const s = puzzleScores['p'+i];\r
+    txt += `Puzzle ${i}: ${s ? s.got+'/'+s.total : '—'}\\n`;\r
+  }\r
+  let g=0, t=0;\r
+  if(v){ g+=v.got; t+=v.total; }\r
+  for(let i=1; i<=4; i++){ const s=quizScores['q'+i]; if(s){g+=s.got; t+=s.total;} }\r
+  for(let i=1; i<=4; i++){ const s=puzzleScores['p'+i]; if(s){g+=s.got; t+=s.total;} }\r
+  const pct = t > 0 ? Math.round(g/t*100) : 0;\r
+  txt += '─'.repeat(28) + `\\nTotal: ${g}/${t} (${pct}%)`;\r
+  \r
+  navigator.clipboard.writeText(txt.replace(/\\n/g, '\n')).then(() => alert('Результати скопійовано!'));\r
+}\r
+\r
+// --- INITIALIZATION ---\r
+window.onload = function(){\r
+  initVideoQs();\r
+};\r
 </script>
+
 </body>
 </html>
